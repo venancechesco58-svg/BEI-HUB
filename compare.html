@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phone Comparison - BeiHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .comparison-detail {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--primary-blue);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      background: var(--primary-blue-dark);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .phone-detail-card {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .phone-detail-image {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .phone-detail-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--dark-gray);
+    }
+
+    .phone-detail-price {
+      font-size: 1.2rem;
+      color: var(--primary-blue);
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .specs-table th {
+      background: var(--light-gray);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .specs-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .specs-table tr:hover {
+      background: var(--light-gray);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .specs-table {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER / NAVBAR -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo-section">
+        <a href="index.html" class="logo">
+          <span class="logo-bei">Bei</span><span class="logo-hub">Hub</span>
+        </a>
+      </div>
+
+      <!-- Hamburger Menu (Mobile) -->
+      <button class="hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Phone List</a>
+        <a href="#" class="nav-link">Trending</a>
+        <a href="#" class="nav-link">Articles</a>
+      </nav>
+
+      <!-- Header Icons -->
+      <div class="header-icons">
+        <button class="icon-btn" title="User Profile">👤</button>
+        <button class="icon-btn" title="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="comparison-detail">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+    <h1 class="section-title">Phone Comparison</h1>
+
+    <div class="comparison-grid" id="comparisonGrid">
+      <!-- Comparison cards will be generated here -->
+    </div>
+
+    <div>
+      <h2 class="section-title">Detailed Specs</h2>
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Specification</th>
+            <th id="phone1Header">Phone 1</th>
+            <th id="phone2Header">Phone 2</th>
+          </tr>
+        </thead>
+        <tbody id="specsBody">
+          <!-- Specs will be generated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 BeiHub. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Sample phone specifications
+    const phoneSpecs = {
+      1: {
+        name: 'Samsung Galaxy A14',
+        emoji: '📱',
+        price: 'Tsh 250,000 – 320,000',
+        specs: {
+          'Processor': 'MediaTek Helio G35',
+          'RAM': '3GB / 4GB',
+          'Storage': '64GB / 128GB',
+          'Display': '6.5" IPS LCD, 90Hz',
+          'Camera': '50MP Main, 5MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 13',
+          'Weight': '189g'
+        }
+      },
+      2: {
+        name: 'iPhone 11',
+        emoji: '📱',
+        price: 'Tsh 750,000 – 850,000',
+        specs: {
+          'Processor': 'Apple A13 Bionic',
+          'RAM': '4GB',
+          'Storage': '64GB / 128GB / 256GB',
+          'Display': '6.1" Liquid Retina LCD',
+          'Camera': '12MP Main, 12MP Front',
+          'Battery': '3110mAh',
+          'OS': 'iOS 17',
+          'Weight': '194g'
+        }
+      },
+      3: {
+        name: 'Tecno Spark 10',
+        emoji: '📱',
+        price: 'Tsh 300,000 – 350,000',
+        specs: {
+          'Processor': 'MediaTek Helio G37',
+          'RAM': '3GB / 4GB',
+          'Storage': '64GB / 128GB',
+          'Display': '6.5" IPS LCD',
+          'Camera': '13MP Main, 8MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 13',
+          'Weight': '190g'
+        }
+      },
+      4: {
+        name: 'Samsung Galaxy S23',
+        emoji: '📱',
+        price: 'Tsh 1,200,000 – 1,500,000',
+        specs: {
+          'Processor': 'Snapdragon 8 Gen 2',
+          'RAM': '8GB',
+          'Storage': '128GB / 256GB',
+          'Display': '6.1" AMOLED, 120Hz',
+          'Camera': '50MP Main, 10MP Front',
+          'Battery': '4000mAh',
+          'OS': 'Android 13',
+          'Weight': '168g'
+        }
+      },
+      5: {
+        name: 'Redmi Note 12',
+        emoji: '📱',
+        price: 'Tsh 450,000 – 550,000',
+        specs: {
+          'Processor': 'MediaTek Helio G88',
+          'RAM': '4GB / 6GB',
+          'Storage': '64GB / 128GB',
+          'Display': '6.67" IPS LCD, 90Hz',
+          'Camera': '50MP Main, 13MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 12',
+          'Weight': '190g'
+        }
+      },
+      6: {
+        name: 'POCO X5',
+        emoji: '📱',
+        price: 'Tsh 500,000 – 650,000',
+        specs: {
+          'Processor': 'Snapdragon 695 5G',
+          'RAM': '6GB / 8GB',
+          'Storage': '128GB / 256GB',
+          'Display': '6.67" IPS LCD, 90Hz',
+          'Camera': '50MP Main, 16MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 12',
+          'Weight': '201g'
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(window.location.search);
+      const phone1Id = params.get('phone1');
+      const phone2Id = params.get('phone2');
+
+      if (!phone1Id || !phone2Id) {
+        document.getElementById('comparisonGrid').innerHTML = '<p>Invalid comparison</p>';
+        return;
+      }
+
+      const phone1 = phoneSpecs[phone1Id];
+      const phone2 = phoneSpecs[phone2Id];
+
+      if (!phone1 || !phone2) {
+        document.getElementById('comparisonGrid').innerHTML = '<p>Phone not found</p>';
+        return;
+      }
+
+      // Render comparison cards
+      renderComparisonCards(phone1, phone2);
+
+      // Render specs table
+      renderSpecsTable(phone1, phone2);
+
+      // Initialize navigation
+      initializeNavigation();
+      initializeHamburgerMenu();
+    });
+
+    function renderComparisonCards(phone1, phone2) {
+      const grid = document.getElementById('comparisonGrid');
+      grid.innerHTML = `
+        <div class="phone-detail-card">
+          <div class="phone-detail-image">${phone1.emoji}</div>
+          <h2 class="phone-detail-name">${phone1.name}</h2>
+          <p class="phone-detail-price">${phone1.price}</p>
+        </div>
+        <div class="phone-detail-card">
+          <div class="phone-detail-image">${phone2.emoji}</div>
+          <h2 class="phone-detail-name">${phone2.name}</h2>
+          <p class="phone-detail-price">${phone2.price}</p>
+        </div>
+      `;
+
+      document.getElementById('phone1Header').textContent = phone1.name;
+      document.getElementById('phone2Header').textContent = phone2.name;
+    }
+
+    function renderSpecsTable(phone1, phone2) {
+      const specsBody = document.getElementById('specsBody');
+      const allSpecs = new Set([
+        ...Object.keys(phone1.specs),
+        ...Object.keys(phone2.specs)
+      ]);
+
+      specsBody.innerHTML = '';
+
+      allSpecs.forEach(spec => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${spec}</strong></td>
+          <td>${phone1.specs[spec] || '-'}</td>
+          <td>${phone2.specs[spec] || '-'}</td>
+        `;
+        specsBody.appendChild(row);
+      });
+    }
+
+    function initializeNavigation() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentFile || (currentFile === '' && href === 'compare.html')) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    function initializeHamburgerMenu() {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const navMenu = document.getElementById('navMenu');
+
+      if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', function () {
+          navMenu.classList.toggle('active');
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        const header = document.querySelector('.header');
+        if (!header.contains(e.target)) {
+          navMenu.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+</html>
