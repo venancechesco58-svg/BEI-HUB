@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phone Comparison - BeiHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .comparison-detail {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--primary-blue);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      background: var(--primary-blue-dark);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .phone-detail-card {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .phone-detail-image {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .phone-detail-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--dark-gray);
+    }
+
+    .phone-detail-price {
+      font-size: 1.2rem;
+      color: var(--primary-blue);
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .specs-table th {
+      background: var(--light-gray);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .specs-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .specs-table tr:hover {
+      background: var(--light-gray);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .specs-table {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER / NAVBAR -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo-section">
+        <a href="index.html" class="logo">
+          <span class="logo-bei">Bei</span><span class="logo-hub">Hub</span>
+        </a>
+      </div>
+
+      <!-- Hamburger Menu (Mobile) -->
+      <button class="hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Phone List</a>
+        <a href="#" class="nav-link">Trending</a>
+        <a href="#" class="nav-link">Articles</a>
+      </nav>
+
+      <!-- Header Icons -->
+      <div class="header-icons">
+        <button class="icon-btn" title="User Profile">👤</button>
+        <button class="icon-btn" title="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="comparison-detail">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+    <h1 class="section-title">Phone Comparison</h1>
+
+    <div class="comparison-grid" id="comparisonGrid">
+      <!-- Comparison cards will be generated here -->
+    </div>
+
+    <div>
+      <h2 class="section-title">Detailed Specs</h2>
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Specification</th>
+            <th id="phone1Header">Phone 1</th>
+            <th id="phone2Header">Phone 2</th>
+          </tr>
+        </thead>
+        <tbody id="specsBody">
+          <!-- Specs will be generated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 BeiHub. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Sample phone specifications
+    const phoneSpecs = {
+      1: {
+        name: 'Samsung Galaxy A14',
+        emoji: '📱',
+        price: 'Tsh 250,000 – 320,000',
+        specs: {
+          'Processor': 'MediaTek Helio G35',
+          'RAM': '3GB / 4GB',
+          'Storage': '64GB / 128GB',
+          'Display': '6.5" IPS LCD, 90Hz',
+          'Camera': '50MP Main, 5MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 13',
+          'Weight': '189g'
+        }
+      },
+      2: {
+        name: 'iPhone 11',
+        emoji: '📱',
+        price: 'Tsh 750,000 – 850,000',
+        specs: {
+          'Processor': 'Apple A13 Bionic',
+          'RAM': '4GB',
+          'Storage': '64GB / 128GB / 256GB',
+          'Display': '6.1" Liquid Retina LCD',
+          'Camera': '12MP Main, 12MP Front',
+          'Battery': '3110mAh',
+          'OS': 'iOS 17',
+          'Weight': '194g'
+        }
+      },
+      3: {
+        name: 'Tecno Spark 10',
+        emoji: '📱',
+        price: 'Tsh 300,000 – 350,000',
+        specs: {
+          'Processor': 'MediaTek Helio G37',
+          'RAM': '3GB / 4GB',
+          'Storage': '64GB / 128GB',
+          'Display': '6.5" IPS LCD',
+          'Camera': '13MP Main, 8MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 13',
+          'Weight': '190g'
+        }
+      },
+      4: {
+        name: 'Samsung Galaxy S23',
+        emoji: '📱',
+        price: 'Tsh 1,200,000 – 1,500,000',
+        specs: {
+          'Processor': 'Snapdragon 8 Gen 2',
+          'RAM': '8GB',
+          'Storage': '128GB / 256GB',
+          'Display': '6.1" AMOLED, 120Hz',
+          'Camera': '50MP Main, 10MP Front',
+          'Battery': '4000mAh',
+          'OS': 'Android 13',
+          'Weight': '168g'
+        }
+      },
+      5: {
+        name: 'Redmi Note 12',
+        emoji: '📱',
+        price: 'Tsh 450,000 – 550,000',
+        specs: {
+          'Processor': 'MediaTek Helio G88',
+          'RAM': '4GB / 6GB',
+          'Storage': '64GB / 128GB',
+          'Display': '6.67" IPS LCD, 90Hz',
+          'Camera': '50MP Main, 13MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 12',
+          'Weight': '190g'
+        }
+      },
+      6: {
+        name: 'POCO X5',
+        emoji: '📱',
+        price: 'Tsh 500,000 – 650,000',
+        specs: {
+          'Processor': 'Snapdragon 695 5G',
+          'RAM': '6GB / 8GB',
+          'Storage': '128GB / 256GB',
+          'Display': '6.67" IPS LCD, 90Hz',
+          'Camera': '50MP Main, 16MP Front',
+          'Battery': '5000mAh',
+          'OS': 'Android 12',
+          'Weight': '201g'
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(window.location.search);
+      const phone1Id = params.get('phone1');
+      const phone2Id = params.get('phone2');
+
+      if (!phone1Id || !phone2Id) {
+        document.getElementById('comparisonGrid').innerHTML = '<p>Invalid comparison</p>';
+        return;
+      }
+
+      const phone1 = phoneSpecs[phone1Id];
+      const phone2 = phoneSpecs[phone2Id];
+
+      if (!phone1 || !phone2) {
+        document.getElementById('comparisonGrid').innerHTML = '<p>Phone not found</p>';
+        return;
+      }
+
+      // Render comparison cards
+      renderComparisonCards(phone1, phone2);
+
+      // Render specs table
+      renderSpecsTable(phone1, phone2);
+
+      // Initialize navigation
+      initializeNavigation();
+      initializeHamburgerMenu();
+    });
+
+    function renderComparisonCards(phone1, phone2) {
+      const grid = document.getElementById('comparisonGrid');
+      grid.innerHTML = `
+        <div class="phone-detail-card">
+          <div class="phone-detail-image">${phone1.emoji}</div>
+          <h2 class="phone-detail-name">${phone1.name}</h2>
+          <p class="phone-detail-price">${phone1.price}</p>
+        </div>
+        <div class="phone-detail-card">
+          <div class="phone-detail-image">${phone2.emoji}</div>
+          <h2 class="phone-detail-name">${phone2.name}</h2>
+          <p class="phone-detail-price">${phone2.price}</p>
+        </div>
+      `;
+
+      document.getElementById('phone1Header').textContent = phone1.name;
+      document.getElementById('phone2Header').textContent = phone2.name;
+    }
+
+    function renderSpecsTable(phone1, phone2) {
+      const specsBody = document.getElementById('specsBody');
+      const allSpecs = new Set([
+        ...Object.keys(phone1.specs),
+        ...Object.keys(phone2.specs)
+      ]);
+
+      specsBody.innerHTML = '';
+
+      allSpecs.forEach(spec => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${spec}</strong></td>
+          <td>${phone1.specs[spec] || '-'}</td>
+          <td>${phone2.specs[spec] || '-'}</td>
+        `;
+        specsBody.appendChild(row);
+      });
+    }
+
+    function initializeNavigation() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentFile || (currentFile === '' && href === 'compare.html')) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    function initializeHamburgerMenu() {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const navMenu = document.getElementById('navMenu');
+
+      if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', function () {
+          navMenu.classList.toggle('active');
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        const header = document.querySelector('.header');
+        if (!header.contains(e.target)) {
+          navMenu.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BeiHub - Phone Price Comparison & Reviews</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HEADER / NAVBAR -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo-section">
+        <a href="index.html" class="logo">
+          <span class="logo-bei">Bei</span><span class="logo-hub">Hub</span>
+        </a>
+      </div>
+
+      <!-- Hamburger Menu (Mobile) -->
+      <button class="hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="#" class="nav-link">Phone List</a>
+        <a href="#" class="nav-link">Trending</a>
+        <a href="#" class="nav-link">Articles</a>
+      </nav>
+
+      <!-- Header Icons -->
+      <div class="header-icons">
+        <button class="icon-btn" title="User Profile">👤</button>
+        <button class="icon-btn" title="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- SEARCH BAR SECTION -->
+    <section class="search-section">
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search for a phone or price..."
+          id="searchInput"
+        />
+        <button class="search-btn">🔍</button>
+      </div>
+    </section>
+
+    <!-- TRENDING PHONES SECTION -->
+    <section class="trending-section">
+      <h2 class="section-title">Trending Phones</h2>
+      <div class="phones-grid" id="trendingPhones">
+        <!-- Cards will be generated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- CATEGORY BUTTONS SECTION -->
+    <section class="categories-section">
+      <button class="category-btn category-blue">
+        <span class="category-icon">📱</span>
+        <span>Phones under 500K</span>
+      </button>
+      <button class="category-btn category-orange">
+        <span class="category-icon">📸</span>
+        <span>Camera Phones</span>
+      </button>
+      <button class="category-btn category-red">
+        <span class="category-icon">🎮</span>
+        <span>Gaming Phones</span>
+      </button>
+    </section>
+
+    <!-- LATEST ARTICLES SECTION -->
+    <section class="articles-section">
+      <h2 class="section-title">Latest Articles</h2>
+      <div class="articles-grid" id="latestArticles">
+        <!-- Articles will be generated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- PHONE COMPARISON SECTION -->
+    <section class="comparison-section">
+      <h2 class="section-title">Compare Phones</h2>
+      <div class="comparison-container">
+        <div class="comparison-row">
+          <select class="phone-select" id="phone1Select">
+            <option value="">Select Phone 1</option>
+          </select>
+          <span class="vs-text">VS</span>
+          <select class="phone-select" id="phone2Select">
+            <option value="">Select Phone 2</option>
+          </select>
+        </div>
+        <button class="compare-btn" id="compareBtn">COMPARE</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 BeiHub. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+/* ========================================
+   SAMPLE DATA
+   ======================================== */
+const phones = [
+  { id: 1, name: 'Samsung Galaxy A14', emoji: '📱', priceMin: 250000, priceMax: 320000 },
+  { id: 2, name: 'iPhone 11', emoji: '📱', priceMin: 750000, priceMax: 850000 },
+  { id: 3, name: 'Tecno Spark 10', emoji: '📱', priceMin: 300000, priceMax: 350000 },
+  { id: 4, name: 'Samsung Galaxy S23', emoji: '📱', priceMin: 1200000, priceMax: 1500000 },
+  { id: 5, name: 'Redmi Note 12', emoji: '📱', priceMin: 450000, priceMax: 550000 },
+  { id: 6, name: 'POCO X5', emoji: '📱', priceMin: 500000, priceMax: 650000 },
+];
+
+const articles = [
+  {
+    id: 1,
+    title: 'Samsung Galaxy A14 Review',
+    description: 'Detailed review of the Samsung Galaxy A14 including specs, performance, camera quality, and value for money in Tanzania.',
+    emoji: '📱'
+  },
+  {
+    id: 2,
+    title: 'Best Phones Under 500K',
+    description: 'Comprehensive guide to the best smartphones available in Tanzania under 500,000 Tanzanian Shillings.',
+    emoji: '💰'
+  },
+  {
+    id: 3,
+    title: 'Original vs Fake Phone Guide',
+    description: 'Learn how to identify original phones from counterfeits. Important tips and tricks for safe phone purchasing in Tanzania.',
+    emoji: '✅'
+  },
+  {
+    id: 4,
+    title: 'iPhone 11 Price in Tanzania',
+    description: 'Current pricing, availability, and comparison of iPhone 11 across different retailers in Tanzania.',
+    emoji: '🔍'
+  },
+];
+
+/* ========================================
+   INITIALIZATION
+   ======================================== */
+document.addEventListener('DOMContentLoaded', function () {
+  initializeNavigation();
+  initializeHamburgerMenu();
+  renderTrendingPhones();
+  renderArticles();
+  populatePhoneSelects();
+  initializeSearch();
+  initializeComparison();
+});
+
+/* ========================================
+   NAVIGATION FUNCTIONS
+   ======================================== */
+function initializeNavigation() {
+  const navLinks = document.querySelectorAll('.nav-link');
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentFile || (currentFile === '' && href === 'index.html')) {
+      link.classList.add('active');
+    }
+
+    link.addEventListener('click', function (e) {
+      // Remove active from all links
+      navLinks.forEach(item => item.classList.remove('active'));
+      // Add active to clicked link
+      link.classList.add('active');
+      // Close mobile menu if open
+      closeNavMenu();
+    });
+  });
+}
+
+/* ========================================
+   HAMBURGER MENU FUNCTIONS
+   ======================================== */
+function initializeHamburgerMenu() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navMenu = document.getElementById('navMenu');
+
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', function () {
+      navMenu.classList.toggle('active');
+    });
+  }
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function (e) {
+    const header = document.querySelector('.header');
+    if (!header.contains(e.target)) {
+      closeNavMenu();
+    }
+  });
+}
+
+function closeNavMenu() {
+  const navMenu = document.getElementById('navMenu');
+  navMenu.classList.remove('active');
+}
+
+/* ========================================
+   TRENDING PHONES SECTION
+   ======================================== */
+function renderTrendingPhones() {
+  const container = document.getElementById('trendingPhones');
+  container.innerHTML = '';
+
+  phones.forEach(phone => {
+    const card = createPhoneCard(phone);
+    container.appendChild(card);
+  });
+}
+
+function createPhoneCard(phone) {
+  const card = document.createElement('div');
+  card.className = 'phone-card';
+  card.innerHTML = `
+    <div class="phone-card-image">${phone.emoji}</div>
+    <div class="phone-card-content">
+      <h3 class="phone-card-name">${phone.name}</h3>
+      <p class="phone-card-price">
+        <span class="phone-card-price-range">Tsh ${phone.priceMin.toLocaleString()} – ${phone.priceMax.toLocaleString()}</span>
+      </p>
+    </div>
+  `;
+  card.addEventListener('click', () => {
+    // Navigate to phone detail page (you can create this later)
+    console.log('Clicked on:', phone.name);
+  });
+  return card;
+}
+
+/* ========================================
+   ARTICLES SECTION
+   ======================================== */
+function renderArticles() {
+  const container = document.getElementById('latestArticles');
+  container.innerHTML = '';
+
+  articles.forEach(article => {
+    const card = createArticleCard(article);
+    container.appendChild(card);
+  });
+}
+
+function createArticleCard(article) {
+  const card = document.createElement('div');
+  card.className = 'article-card';
+  card.innerHTML = `
+    <div class="article-image">${article.emoji}</div>
+    <div class="article-content">
+      <h3 class="article-title">${article.title}</h3>
+      <p class="article-description">${article.description}</p>
+      <a href="#" class="article-cta">View full review and price →</a>
+    </div>
+  `;
+  card.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Navigate to article page (you can create this later)
+    console.log('Clicked on article:', article.title);
+  });
+  return card;
+}
+
+/* ========================================
+   PHONE COMPARISON SECTION
+   ======================================== */
+function populatePhoneSelects() {
+  const select1 = document.getElementById('phone1Select');
+  const select2 = document.getElementById('phone2Select');
+
+  phones.forEach(phone => {
+    const option1 = document.createElement('option');
+    option1.value = phone.id;
+    option1.textContent = phone.name;
+    select1.appendChild(option1);
+
+    const option2 = document.createElement('option');
+    option2.value = phone.id;
+    option2.textContent = phone.name;
+    select2.appendChild(option2);
+  });
+}
+
+function initializeComparison() {
+  const compareBtn = document.getElementById('compareBtn');
+  const phone1Select = document.getElementById('phone1Select');
+  const phone2Select = document.getElementById('phone2Select');
+
+  compareBtn.addEventListener('click', () => {
+    const phone1Id = phone1Select.value;
+    const phone2Id = phone2Select.value;
+
+    if (!phone1Id || !phone2Id) {
+      alert('Please select both phones to compare');
+      return;
+    }
+
+    if (phone1Id === phone2Id) {
+      alert('Please select different phones to compare');
+      return;
+    }
+
+    // Navigate to comparison page
+    window.location.href = `compare.html?phone1=${phone1Id}&phone2=${phone2Id}`;
+  });
+}
+
+/* ========================================
+   SEARCH FUNCTIONALITY
+   ======================================== */
+function initializeSearch() {
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.querySelector('.search-btn');
+
+  if (searchBtn) {
+    searchBtn.addEventListener('click', performSearch);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  }
+}
+
+function performSearch() {
+  const searchInput = document.getElementById('searchInput');
+  const query = searchInput.value.trim().toLowerCase();
+
+  if (!query) {
+    alert('Please enter a search term');
+    return;
+  }
+
+  // Filter phones based on search
+  const results = phones.filter(phone => 
+    phone.name.toLowerCase().includes(query)
+  );
+
+  if (results.length === 0) {
+    alert('No phones found matching: ' + query);
+    return;
+  }
+
+  // Display search results (you can create a results page later)
+  console.log('Search results:', results);
+}
+
+/* ========================================
+   CATEGORY BUTTONS FUNCTIONALITY
+   ======================================== */
+document.addEventListener('DOMContentLoaded', function () {
+  const categoryBtns = document.querySelectorAll('.category-btn');
+  
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const buttonText = btn.textContent.trim();
+      console.log('Category clicked:', buttonText);
+      // Navigate to category page (you can create this later)
+      // window.location.href = `phones.html?category=${encodeURIComponent(buttonText)}`;
+    });
+  });
+});
+
+/* ========================================
+   ROOT VARIABLES & RESET
+   ======================================== */
+:root {
+  --primary-blue: #1E5EFF;
+  --primary-blue-dark: #1444b8;
+  --accent-green: #4CAF50;
+  --accent-orange: #FF9800;
+  --accent-red: #d63d4b;
+  --white: #ffffff;
+  --light-gray: #f5f5f5;
+  --gray-2: #eeeeee;
+  --dark-gray: #333333;
+  --text-gray: #666666;
+  --border-color: #e0e0e0;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--dark-gray);
+  background-color: var(--light-gray);
+  line-height: 1.6;
+}
+
+/* ========================================
+   HEADER / NAVBAR
+   ======================================== */
+.header {
+  background: var(--white);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo-section {
+  flex-shrink: 0;
+}
+
+.logo {
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: inline-block;
+}
+
+.logo-bei {
+  color: var(--white);
+  background: linear-gradient(135deg, var(--primary-blue), #1a4d99);
+  padding: 0 8px;
+  border-radius: 4px;
+}
+
+.logo-hub {
+  color: var(--accent-green);
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--dark-gray);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav-link:hover {
+  color: var(--primary-blue);
+}
+
+.nav-link.active {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--primary-blue);
+  border-radius: 3px;
+}
+
+.header-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--light-gray);
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: var(--gray-2);
+  transform: scale(1.05);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: var(--dark-gray);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* ========================================
+   MAIN CONTAINER
+   ======================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ========================================
+   SEARCH SECTION
+   ======================================== */
+.search-section {
+  margin-bottom: 3rem;
+}
+
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(30, 94, 255, 0.1);
+}
+
+.search-btn {
+  padding: 1rem 1.5rem;
+  background: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search-btn:hover {
+  background: var(--primary-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   SECTION TITLES
+   ======================================== */
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--dark-gray);
+}
+
+/* ========================================
+   TRENDING PHONES SECTION
+   ======================================== */
+.trending-section {
+  margin-bottom: 3rem;
+}
+
+.phones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.phone-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.phone-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.phone-card-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #f0f4ff, #e8f0ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.phone-card-content {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.phone-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark-gray);
+  margin-bottom: 0.5rem;
+}
+
+.phone-card-price {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  margin-bottom: 1rem;
+}
+
+.phone-card-price-range {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+/* ========================================
+   CATEGORY BUTTONS SECTION
+   ======================================== */
+.categories-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.category-btn {
+  padding: 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--white);
+  text-align: center;
+  flex-direction: column;
+}
+
+.category-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.category-blue {
+  background: var(--primary-blue);
+}
+
+.category-orange {
+  background: var(--accent-orange);
+}
+
+.category-red {
+  background: var(--accent-red);
+}
+
+.category-icon {
+  font-size: 1.8rem;
+}
+
+/* ========================================
+   ARTICLES SECTION
+   ======================================== */
+.articles-section {
+  margin-bottom: 3rem;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.article-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.article-image {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #fff4e6, #ffe6cc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.article-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--dark-gray);
+  margin-bottom: 0.75rem;
+}
+
+.article-description {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.article-cta {
+  color: var(--primary-blue);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.article-cta:hover {
+  gap: 1rem;
+}
+
+/* ========================================
+   COMPARISON SECTION
+   ======================================== */
+.comparison-section {
+  margin-bottom: 3rem;
+}
+
+.comparison-container {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.comparison-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.phone-select {
+  flex: 1;
+  min-width: 200px;
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.phone-select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(30, 94, 255, 0.1);
+}
+
+.vs-text {
+  font-weight: 700;
+  color: var(--primary-blue);
+  font-size: 1.1rem;
+}
+
+.compare-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+  background: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.compare-btn:hover {
+  background: var(--primary-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+  background: var(--dark-gray);
+  color: var(--white);
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+  /* Header adjustments */
+  .header-container {
+    gap: 1rem;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+  }
+
+  /* Main container */
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Grids */
+  .phones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .categories-section {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sections */
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .search-container {
+    max-width: 100%;
+  }
+
+  /* Comparison */
+  .comparison-row {
+    flex-direction: column;
+  }
+
+  .phone-select {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .header-icons {
+    gap: 0.5rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .search-input,
+  .search-btn {
+    width: 100%;
+  }
+
+  .phone-card-image,
+  .article-image {
+    height: 150px;
+  }
+
+  .category-btn {
+    padding: 1.2rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .comparison-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .compare-btn {
+    width: 100%;
+    padding: 0.8rem;
+  }
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.18);
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.hero {
+  background: rgba(255,255,255,0.93);
+  border-radius: 30px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.hero-search {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f8fbff;
+  border: 1px solid #dfe7f4;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.search-bar button {
+  border: none;
+  background: var(--blue-700);
+  color: white;
+  padding: 14px 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  min-width: 56px;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: var(--blue-800);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 22px 18px;
+  box-shadow: 0 18px 44px rgba(15, 51, 97, 0.08);
+  border: 1px solid rgba(15, 51, 97, 0.06);
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 16px;
+  max-height: 170px;
+  object-fit: contain;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  margin: 0 0 10px;
+  color: var(--blue-700);
+  font-weight: 700;
+  text-align: center;
+}
+
+.card-price {
+  text-align: center;
+  color: #2d3e5b;
+  font-weight: 600;
+  font-size: 0.96rem;
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.button-row button {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(26, 88, 194, 0.16);
+}
+
+.button-row .btn-blue { background: linear-gradient(135deg, #2d65f0, #1a4acf); }
+.button-row .btn-orange { background: linear-gradient(135deg, #f68d22, #e1691c); }
+.button-row .btn-red { background: linear-gradient(135deg, #d63d4b, #b72334); }
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.news-card {
+  background: white;
+  border-radius: 26px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  min-height: 164px;
+  border: 1px solid rgba(15, 51, 97, 0.06);
+}
+
+.news-card.large {
+  min-height: 212px;
+}
+
+.news-card img {
+  width: 120px;
+  height: auto;
+  border-radius: 18px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.news-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.news-content h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #153264;
+  font-weight: 700;
+}
+
+.news-content p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.news-link {
+  color: var(--blue-700);
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.compare-panel {
+  background: white;
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 26px 26px 22px;
+  border: 1px solid rgba(15, 51, 97, 0.06);
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.select-box {
+  background: #f8fbff;
+  border: 1px solid #dfe7f4;
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: grid;
+}
+
+.select-box select {
+  border: none;
+  background: transparent;
+  font-size: 0.98rem;
+  color: #334155;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.vs-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  color: var(--blue-800);
+  font-weight: 800;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f8fbff, #edf4ff);
+  padding: 16px 24px;
+  border: 1px solid #d1e4ff;
+}
+
+.compare-btn {
+  margin-top: 20px;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 16px;
+  background: var(--blue-700);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.compare-hero {
+  margin-top: 32px;
+}
+
+.compare-banner {
+  background: linear-gradient(135deg, #1f5ce0, #f28b23);
+  border-radius: 30px;
+  padding: 28px;
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.banner-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.banner-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.phone-banner {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 24px;
+  padding: 22px;
+  text-align: center;
+}
+
+.phone-banner img {
+  width: 100%;
+  max-width: 180px;
+  margin: 0 auto 16px;
+  border-radius: 18px;
+}
+
+.banner-phone-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.banner-phone-meta,
+.banner-detail {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 8px;
+}
+
+.vs-big {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 16px 32px rgba(0,0,0,0.2);
+}
+
+.compare-table-section {
+  margin-top: 30px;
+}
+
+.result-table {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 51, 97, 0.12);
+}
+
+.result-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr;
+  gap: 1px;
+  background: #edf4ff;
+}
+
+.result-row.header-row {
+  background: #f8fbff;
+}
+
+.result-row.header-row > div,
+.row-label,
+.row-value {
+  padding: 18px 20px;
+}
+
+.result-row.header-row > div {
+  font-weight: 700;
+  color: #0f3d96;
+}
+
+.row-label {
+  background: white;
+  font-weight: 700;
+  color: #0f3d96;
+}
+
+.row-value {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row-value.alt {
+  background: #fff8ef;
+}
+
+.row-value strong {
+  font-size: 0.95rem;
+  color: #0f3d96;
+}
+
+.row-value span {
+  color: #556987;
+  font-size: 0.86rem;
+}
+
+.result-summary {
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.summary-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.summary-phone {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.summary-text {
+  color: #556987;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.summary-vs,
+.summary-vs-divider {
+  text-align: center;
+}
+
+.summary-vs {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #0f3d96;
+}
+
+.summary-vs span {
+  font-size: 1rem;
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.action-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  padding: 16px 24px;
+  min-width: 220px;
+  background: var(--blue-700);
+  color: white;
+  font-weight: 700;
+}
+
+.action-btn.outline {
+  background: white;
+  color: #0f3d96;
+  border: 1px solid #cbd6ea;
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-links {
+    justify-content: center;
+  }
+  .button-row {
+    grid-template-columns: 1fr;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+  .vs-chip {
+    justify-content: flex-start;
+  }
+  .banner-grid,
+  .result-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  .page {
+    padding: 18px 14px 32px;
+  }
+  .card {
+    border-radius: 22px;
+  }
+  .news-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .news-card img {
+    width: 100%;
+  }
+  .compare-btn {
+    width: 100%;
+  }
+}
